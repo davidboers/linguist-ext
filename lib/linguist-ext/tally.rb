@@ -1,4 +1,4 @@
-require 'linguist'
+#require 'linguist'
 
 module Linguist
   class Tally
@@ -26,13 +26,12 @@ module Linguist
       @filecount = files.length
       @lines = 0
       @loc = 0
-=begin
+
       files.each do |path|
-        blob = Linguist::FileBlob.new(path, Dir.pwd)
-        @lines += blob.loc
-        @loc += blob.sloc
+        #blob = Linguist::FileBlob.new(path, Dir.pwd)
+        @lines += 0 #blob.loc
+        @loc += 0 #blob.sloc
       end
-=end
     end
 
     def lang_obj
