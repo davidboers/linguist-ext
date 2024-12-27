@@ -14,10 +14,29 @@
   "contributes": {
     "commands": [
       {
-        "command": "linguist.helloWorld",
-        "title": "Hello World"
+        "command": "linguist.inquireFile",
+        "title": "Linguist: Inquire file",
+        "description": "Gets language of an individual file"
       }
-    ]
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "Linguist",
+      "properties": {
+        "linguist.rubyExecutable": {
+          "scope": "machine-overridable",
+          "type": "string",
+          "default": "ruby",
+          "markdownDescription": "Path to Ruby executable."
+        },
+        "linguist.gemExecutable": {
+          "scope": "machine-overridable",
+          "type": "string",
+          "default": "gem",
+          "markdownDescription": "Path to Gem executable."
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
