@@ -1,0 +1,32 @@
+{
+    "Dockerfile": {
+        "size": 1212,
+        "percentage": "0.31",
+        "files": []
+    },
+    "Ruby": {
+        "size": 264519,
+        "percentage": "66.84",
+        "files": []
+    },
+    "C": {
+        "size": 97685,
+        "percentage": "24.68",
+        "files": []
+    },
+    "Lex": {
+        "size": 5098,
+        "percentage": "1.29",
+        "files": []
+    },
+    "Shell": {
+        "size": 1257,
+        "percentage": "0.32",
+        "files": []
+    },
+    "Go": {
+        "size": 25999,
+        "percentage": "6.57",
+        "files": []
+    }
+}

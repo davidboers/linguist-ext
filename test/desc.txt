@@ -1,0 +1,14 @@
+This repository is written mostly in Python and Haskell.
+There is also some CoffeeScript.
+There is 1 XSLT file.
+There are some Batchfile scripts as well.
+
+Language paradigms:
+- Procedural (imperative), object oriented:
+    - Python
+- Purely functional
+    - Haskell
+- Procedural (imperative), scripting:
+    - CoffeeScript
+    - Batchfile
+   
