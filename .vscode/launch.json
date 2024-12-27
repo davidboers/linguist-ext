@@ -9,6 +9,7 @@
 			"name": "Run Extension",
 			"type": "extensionHost",
 			"request": "launch",
+			"testConfiguration": "${workspaceFolder}/.vscode-test.mjs",
 			"args": [
 				"--extensionDevelopmentPath=${workspaceFolder}"
 			],
