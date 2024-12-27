@@ -8,7 +8,7 @@ class TestRepo < Minitest::Test
   end
 
   def get_json
-    jsonpath = normalize_path '/linguist/test/breakdown.json'
+    jsonpath = normalize_path '/test/breakdown.json'
     results = from_json(jsonpath)
     return results
   end
