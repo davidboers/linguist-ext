@@ -3,6 +3,8 @@ require_relative 'tally'
 module Linguist
   # Must summarize a single repo.
   class Summary
+    attr_reader :tallies 
+
     # Initialize a summary using a bd from a .json file
     def initialize(bd = {})
       @tallies = []
