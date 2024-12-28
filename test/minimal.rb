@@ -1,3 +1,3 @@
-require 'linguist'
+require "linguist"
 
 puts Linguist::VERSION

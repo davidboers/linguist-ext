@@ -1,4 +1,4 @@
-require 'linguist'
+require "linguist"
 
 module Linguist
   class Tally
@@ -15,9 +15,9 @@ module Linguist
         files = repo.breakdown_by_file[language]
       elsif repo.is_a? Hash
         bd = repo
-        files = bd[language]['files']
+        files = bd[language]["files"]
       end
-      
+
       if bd[language].nil?
         puts "Could not find that language: #{language}"
       else
@@ -44,17 +44,17 @@ module Linguist
       obj = Language.find_by_name(@language)
       if obj.nil?
         puts "No language object found for #{@language}."
-      else 
+      else
         return obj
       end
     end
 
     def present(totalbytes = 0)
       if totalbytes == 0
-        puts '%-15s %-10s lines: %-5s loc: %-5s' % [@language, @bytes, @lines, @loc]
+        puts "%-15s %-10s lines: %-5s loc: %-5s" % [@language, @bytes, @lines, @loc]
       else
         share = (self.bytes / totalbytes.to_f * 100).round(2)
-        puts '%-15s %-10s %-6s lines: %-5s loc: %-5s' % [@language, @bytes, share, @lines, @loc]        
+        puts "%-15s %-10s %-6s lines: %-5s loc: %-5s" % [@language, @bytes, share, @lines, @loc]
       end
     end
 

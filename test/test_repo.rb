@@ -1,4 +1,4 @@
-require_relative './helper'
+require_relative "./helper"
 
 class TestRepo < Minitest::Test
   include Linguist
@@ -8,7 +8,7 @@ class TestRepo < Minitest::Test
   end
 
   def get_json
-    jsonpath = normalize_path '/test/breakdown.json'
+    jsonpath = normalize_path "/test/breakdown.json"
     results = from_json(jsonpath)
     return results
   end
@@ -18,7 +18,7 @@ class TestRepo < Minitest::Test
 
     puts
     if s.big_languages.empty?
-      puts 'No big languages found.'
+      puts "No big languages found."
     end
 
     puts "Size: #{s.size}"
@@ -26,7 +26,7 @@ class TestRepo < Minitest::Test
   end
 
   def test_tally_type
-    results = index_repo('.')
+    results = index_repo(".")
     s = Summary.new results
     summary(s)
     puts s.tally_by_type

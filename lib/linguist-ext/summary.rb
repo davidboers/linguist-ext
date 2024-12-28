@@ -1,9 +1,9 @@
-require_relative 'tally'
+require_relative "tally"
 
 module Linguist
   # Must summarize a single repo.
   class Summary
-    attr_reader :tallies 
+    attr_reader :tallies
 
     # Initialize a summary using a bd from a .json file
     def initialize(bd = {})
@@ -17,7 +17,6 @@ module Linguist
       languages.each do |language, size|
         @tallies.append Tally.new(bd, language)
       end
-      
     end
 
     def present
@@ -81,7 +80,7 @@ module Linguist
     summaries.each do |summary|
       summary.tallies.each do |tally|
         lang = tally.language
-        if !out.key? lang 
+        if !out.key? lang
           out.add(tally)
         else
           out.get(lang).merge(tally)
