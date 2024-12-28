@@ -14,7 +14,7 @@ class TestRepo < Minitest::Test
   end
 
   def summary
-    results = get_json
+    results = index_repo('.')
     s = Summary.new results
     s.present
 
@@ -29,8 +29,7 @@ class TestRepo < Minitest::Test
   end
 
   def test_tally_type
-    repo = index_repo('.')
-    s = Summary.new repo
+    s = summary
     puts s.tally_by_type
   end
 end
