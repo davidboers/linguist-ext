@@ -1,4 +1,4 @@
-#require 'linguist'
+require 'linguist'
 
 module Linguist
   class Tally
@@ -28,9 +28,9 @@ module Linguist
       @loc = 0
 
       files.each do |path|
-        #blob = Linguist::FileBlob.new(path, Dir.pwd)
-        @lines += 0 #blob.loc
-        @loc += 0 #blob.sloc
+        blob = Linguist::FileBlob.new(path, Dir.pwd)
+        @lines += blob.loc
+        @loc += blob.sloc
       end
     end
 
