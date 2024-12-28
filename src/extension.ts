@@ -16,15 +16,19 @@ export function activate(context: vscode.ExtensionContext) {
 	const inquireFile = vscode.commands.registerCommand('linguist.inquireFile', () => {
 		const editor = vscode.window.activeTextEditor;
 		if (!editor) {
-			vscode.window.showInformationMessage('No active document.');
-			return;
+			const msg = 'No active document.';
+			vscode.window.showInformationMessage(msg);
+			throw new Error(msg);
 		}
 
 		const path = editor.document.uri.path;
 		const out = ChildProcess.spawnSync('github-linguist', [path]);
 		if (out.status !== 0) {
-			vscode.window.showErrorMessage(`Something went wrong. Linguist gem returned error code: ${out.status}`);
-			return;
+			const msg = `Something went wrong. Linguist gem returned error code: ${out.status}`;
+			vscode.window.showErrorMessage(msg);
+			throw new Error(msg);
+		} else {
+			console.log(out.output);
 		}
 	});
 
