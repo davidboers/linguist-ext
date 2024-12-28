@@ -48,5 +48,12 @@ module Linguist
     def present
       puts '%-10s %-10s lines: %-5s loc: %-5s' % [@language, @bytes, @lines, @loc]
     end
+
+    def merge(tally)
+      @bytes += tally.bytes
+      @filecount += tally.filecount
+      @lines += tally.lines
+      @loc += tally.loc
+    end
   end
 end
