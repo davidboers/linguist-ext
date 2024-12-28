@@ -34,6 +34,12 @@
           "type": "string",
           "default": "gem",
           "markdownDescription": "Path to Gem executable."
+        },
+        "linguist.linguistExecutable": {
+          "scope": "machine-overridable",
+          "type": "string",
+          "default": "github-linguist",
+          "markdownDescription": "Path to linguist executable."
         }
       }
     }

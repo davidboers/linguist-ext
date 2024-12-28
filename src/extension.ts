@@ -1,15 +1,20 @@
 import * as vscode from 'vscode';
 import * as ChildProcess from 'child_process';
-import { findRubyExec, findGemExec, isGemInstalled } from './ruby';
+import { findRubyExec, findGemExec, isGemInstalled, findLinguistExec } from './ruby';
 
 export function activate(context: vscode.ExtensionContext) {
 	vscode.workspace.onDidOpenTextDocument(async (document: vscode.TextDocument) => await activeServer(context, document));
 
 	let ruby = findRubyExec();
 	let gem = findGemExec();
-	if (!gem && !isGemInstalled(gem)) {
-		vscode.window.showErrorMessage('Gem not installed. Install using `gem install github-linguist`');
+
+	if (!isGemInstalled(gem)) {
+		const msg = 'Gem not installed. Install using `gem install github-linguist`';
+		vscode.window.showErrorMessage(msg);
+		throw new Error(msg);
 	}
+
+	let linguist = findLinguistExec();
 
 	console.log('Linguist extension is now active.');
 
@@ -21,14 +26,17 @@ export function activate(context: vscode.ExtensionContext) {
 			throw new Error(msg);
 		}
 
-		const path = editor.document.uri.path;
-		const out = ChildProcess.spawnSync('github-linguist', [path]);
-		if (out.status !== 0) {
-			const msg = `Something went wrong. Linguist gem returned error code: ${out.status}`;
+		const path = editor.document.uri.path.replace('/c:/', 'C:/');
+		const out = ChildProcess.spawnSync(linguist, [path], { shell: true });
+		if (out.status === 0) {
+			console.log(dumpText(out.stdout));
+		} else {
+			let msg = `Something went wrong. Linguist gem returned error code: ${out.status}`;
+			if (out.stdout !== null || out.stdout !== undefined) {
+				msg += dumpText(out.stdout);
+			}
 			vscode.window.showErrorMessage(msg);
 			throw new Error(msg);
-		} else {
-			console.log(out.output);
 		}
 	});
 
@@ -43,4 +51,10 @@ function activeServer(context: vscode.ExtensionContext, document: vscode.TextDoc
 
 export function deactivate() {
 	console.log('Linguist extension is no longer active.');
+}
+
+function dumpText(buffer: Buffer<ArrayBufferLike>): string {
+	let text = '';
+	buffer.forEach((value) => { text += String.fromCharCode(value); });
+	return text;
 }

@@ -20,9 +20,13 @@ export function findGemExec(): string {
     return findExecTemp('gemExecutable', 'Gem');
 }
 
+export function findLinguistExec(): string {
+    return findExecTemp('linguistExecutable', 'github-linguist');
+}
+
 export function isGemInstalled(gemExec: string): boolean {
     const args = ['list', '-i', 'github-linguist'];
-    const out = ChildProcess.spawnSync(gemExec, args);
+    const out = ChildProcess.spawnSync(gemExec, args, { shell: true });
     return out.status === 0;
 }
 
