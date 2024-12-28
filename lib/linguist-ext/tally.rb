@@ -30,6 +30,10 @@ module Linguist
       @loc = 0
 
       files.each do |path|
+        if !File.exist? path
+          puts "No file #{path}."
+          next
+        end
         blob = Linguist::FileBlob.new(path, Dir.pwd)
         @lines += blob.loc
         @loc += blob.sloc
