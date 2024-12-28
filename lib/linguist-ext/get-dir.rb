@@ -1,16 +1,13 @@
 require 'json'
-=begin pending fix of linguist
 require 'linguist'
 require 'rugged'
 
-def index_repo(repopath)
-  rugged = Rugged::Repository.new(repopath)
-  repo = Linguist::Repository.new(rugged, rugged.head.target_id)
-  return repo
-end
-=end
-
 module Linguist
+  def index_repo(repopath)
+    rugged = Rugged::Repository.new(repopath)
+    repo = Linguist::Repository.new(rugged, rugged.head.target_id)
+    return repo
+  end
 
   def from_json(jsonpath)
     if !File.exist? jsonpath
