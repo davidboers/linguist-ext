@@ -44,5 +44,41 @@ module Linguist
     def size
       return @tallies.map { |t| t.bytes }.sum
     end
+
+    def key?(lang)
+      @tallies.each do |tally|
+        if tally.language == lang
+          return true
+        end
+      end
+      return false
+    end
+
+    def add(tally)
+      @tallies.push(tally)
+    end
+
+    def get(lang)
+      @tallies.each do |tally|
+        if tally.language == lang
+          return tally
+        end
+      end
+    end
+  end
+
+  def merge_summaries(summaries = [])
+    out = Summary.new
+    summaries.each do |summary|
+      summary.tallies.each do |tally|
+        lang = tally.language
+        if !out.key? lang 
+          out.add(tally)
+        else
+          out.get(lang).merge(tally)
+        end
+      end
+    end
+    return out
   end
 end
