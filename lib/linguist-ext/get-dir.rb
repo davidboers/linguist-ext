@@ -9,6 +9,24 @@ module Linguist
     return repo
   end
 
+  def index_dir(dirpath)
+    blobs = []
+    if !File.directory? dirpath
+      puts "#{dirpath} is not a directory."
+    else
+      Dir.entries(dirpath).each do |subpath|
+        if File.file? subpath
+          blob = Linguist::FileBlob.new(subpath, dirpath)
+          blobs.push(blob)
+        elsif File.directory? subpath
+          subblobs = index_dir(subpath)
+          blobs.push(subblobs)
+        end
+      end
+    end
+    return blobs
+  end
+
   def from_json(jsonpath)
     if !File.exist? jsonpath
       puts "#{jsonpath} does not exist. Here is the pwd: #{Dir.pwd}"
