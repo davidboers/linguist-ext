@@ -50,7 +50,7 @@ module Linguist
     end
 
     def present
-      puts '%-10s %-10s lines: %-5s loc: %-5s' % [@language, @bytes, @lines, @loc]
+      puts '%-15s %-10s lines: %-5s loc: %-5s' % [@language, @bytes, @lines, @loc]
     end
 
     def merge(tally)
