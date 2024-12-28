@@ -1,5 +1,5 @@
 import * as ChildProcess from 'child_process';
-import { workspace } from 'vscode';
+import { workspace, window } from 'vscode';
 
 function findExecTemp(setting: string, execName: string): string {
     let exePath = workspace.getConfiguration('linguist').get(setting) as string;
@@ -24,10 +24,14 @@ export function findLinguistExec(): string {
     return findExecTemp('linguistExecutable', 'github-linguist');
 }
 
-export function isGemInstalled(gemExec: string): boolean {
-    const args = ['list', '-i', 'github-linguist'];
+export function isGemInstalled(gemExec: string, gemName: string) {
+    const args = ['list', '-i', gemName];
     const out = ChildProcess.spawnSync(gemExec, args, { shell: true });
-    return out.status === 0;
+    if (out.status !== 0) {
+        const msg = 'Gem not installed. Install using `gem install github-linguist`';
+        window.showErrorMessage(msg);
+        throw new Error(msg);
+    }
 }
 
 function findCommand(): string {

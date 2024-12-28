@@ -8,11 +8,7 @@ export function activate(context: vscode.ExtensionContext) {
 	let ruby = findRubyExec();
 	let gem = findGemExec();
 
-	if (!isGemInstalled(gem)) {
-		const msg = 'Gem not installed. Install using `gem install github-linguist`';
-		vscode.window.showErrorMessage(msg);
-		throw new Error(msg);
-	}
+	isGemInstalled(gem, 'github-linguist');
 
 	let linguist = findLinguistExec();
 
@@ -28,9 +24,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 		const path = editor.document.uri.path.replace('/c:/', 'C:/');
 		const out = ChildProcess.spawnSync(linguist, [path], { shell: true });
-		if (out.status === 0) {
-			console.log(dumpText(out.stdout));
-		} else {
+		if (out.status !== 0) {
 			let msg = `Something went wrong. Linguist gem returned error code: ${out.status}`;
 			if (out.stdout !== null || out.stdout !== undefined) {
 				msg += dumpText(out.stdout);
