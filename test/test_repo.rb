@@ -24,12 +24,13 @@ class TestRepo < Minitest::Test
     end
 
     puts "Size: #{s.size}"
-    puts 'Big languages: %s' % merge_langs(s.big_languages)
+    puts "Big languages: #{merge_langs(s.big_languages)}"
     return s
   end
 
   def test_tally_type
-    s = summary
+    repo = index_repo('.')
+    s = Summary.new repo
     puts s.tally_by_type
   end
 end

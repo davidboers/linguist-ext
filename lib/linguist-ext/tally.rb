@@ -10,19 +10,21 @@ module Linguist
 
     def initialize(repo, language)
       @language = language
-      if false#repo.is_a? Linguist::Repository
+      if repo.is_a? Linguist::Repository
         bd = repo.languages
         files = repo.breakdown_by_file[language]
-      else
+      elsif repo.is_a? Hash
         bd = repo
         files = bd[language]['files']
       end
+      
       if bd[language].nil?
         puts "Could not find that language: #{language}"
       else
         details = bd[language]
       end
-      @bytes = details['size']
+
+      @bytes = details
       @filecount = files.length
       @lines = 0
       @loc = 0
@@ -35,7 +37,12 @@ module Linguist
     end
 
     def lang_obj
-      return Language.find_by_name(@language)
+      obj = Language.find_by_name(@language)
+      if obj.nil?
+        puts "No language object found for #{@language}."
+      else 
+        return obj
+      end
     end
 
     def present

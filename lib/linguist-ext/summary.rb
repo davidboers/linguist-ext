@@ -6,9 +6,16 @@ module Linguist
     # Initialize a summary using a bd from a .json file
     def initialize(bd = {})
       @tallies = []
-      bd.keys.each do |language|
+      languages = []
+      if bd.is_a? Hash
+        languages = bd
+      elsif bd.is_a? Linguist::Repository
+        languages = bd.languages
+      end
+      languages.each do |language, size|
         @tallies.append Tally.new(bd, language)
       end
+      
     end
 
     def present
@@ -29,6 +36,7 @@ module Linguist
       types.each do |type|
         tally[type] = @tallies.select { |t| t.lang_obj.type == type }.map { |t| t.bytes }.sum
       end
+      return tally
     end
 
     def size
