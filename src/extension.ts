@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import * as ChildProcess from 'child_process';
 import { findRubyExec, findGemExec, isGemInstalled, findLinguistExec } from './ruby';
+import { dumpText } from './utils';
 
 export function activate(context: vscode.ExtensionContext) {
 	vscode.workspace.onDidOpenTextDocument(async (document: vscode.TextDocument) => await activeServer(context, document));
@@ -9,6 +10,7 @@ export function activate(context: vscode.ExtensionContext) {
 	let gem = findGemExec();
 
 	isGemInstalled(gem, 'github-linguist');
+	//isGemInstalled(gem, 'linguist-ext');
 
 	let linguist = findLinguistExec();
 
@@ -45,10 +47,4 @@ function activeServer(context: vscode.ExtensionContext, document: vscode.TextDoc
 
 export function deactivate() {
 	console.log('Linguist extension is no longer active.');
-}
-
-function dumpText(buffer: Buffer<ArrayBufferLike>): string {
-	let text = '';
-	buffer.forEach((value) => { text += String.fromCharCode(value); });
-	return text;
 }
