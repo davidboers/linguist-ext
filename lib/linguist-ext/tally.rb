@@ -49,8 +49,13 @@ module Linguist
       end
     end
 
-    def present
-      puts '%-15s %-10s lines: %-5s loc: %-5s' % [@language, @bytes, @lines, @loc]
+    def present(totalbytes = 0)
+      if totalbytes == 0
+        puts '%-15s %-10s lines: %-5s loc: %-5s' % [@language, @bytes, @lines, @loc]
+      else
+        share = (self.bytes / totalbytes.to_f * 100).round(2)
+        puts '%-15s %-10s %-6s lines: %-5s loc: %-5s' % [@language, @bytes, share, @lines, @loc]        
+      end
     end
 
     def merge(tally)

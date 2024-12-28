@@ -21,9 +21,18 @@ module Linguist
     end
 
     def present
+      totalbytes = self.totalbytes
       @tallies.sort_by { |t| t.bytes }.reverse.each do |tally|
-        tally.present
+        tally.present(totalbytes)
       end
+    end
+
+    def totalbytes
+      total = 0
+      @tallies.each do |tally|
+        total += tally.bytes
+      end
+      return total
     end
 
     # Returns list of languages with at least 10% total bytes
