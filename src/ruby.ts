@@ -1,4 +1,5 @@
 import * as ChildProcess from 'child_process';
+import * as fs from 'fs';
 import { workspace, window } from 'vscode';
 
 function findExecTemp(setting: string, execName: string): string {
@@ -24,6 +25,10 @@ export function findLinguistExec(): string {
     return findExecTemp('linguistExecutable', 'github-linguist');
 }
 
+export function findLinguistExtExec(): string {
+    return findExecTemp('linguistExtExecutable', 'linguist-ext');
+}
+
 export function isGemInstalled(gemExec: string, gemName: string) {
     const args = ['list', '-i', gemName];
     const out = ChildProcess.spawnSync(gemExec, args, { shell: true });
@@ -42,5 +47,5 @@ function findCommand(): string {
 function executableExists(exe: string): boolean {
     const cmd: string = findCommand();
     const out = ChildProcess.spawnSync(cmd, [exe]);
-    return out.status === 0;
+    return out.status === 0 || fs.existsSync(exe);
 }
