@@ -3,7 +3,7 @@ require_relative './myrepos'
 
 class TestUser < Minitest::Test
   include Linguist
-  
+
   def test_multiple_local_repos
     repos = Linguist.myrepos
     puts 'Selected local repos:'
