@@ -9,25 +9,45 @@ module Linguist
     return repo
   end
 
-  def index_dir(dirpath)
+  def ignore_to_regex(ignore)
+    return "\\A" + ignore.gsub(".", "\\.").gsub("*", ".*") + "\\z" 
+  end
+
+  def read_git_ignore(path)
+    expressions = []
+    ignore_file = File.read(path).split
+    ignore_file.each do |line|
+      line = line.gsub(/#.*/, '')
+      unless line.strip.length == 0
+        expressions.push ignore_to_regex(line)
+      end
+    end
+    return expressions
+  end
+
+  def ignore_paths(paths, excl_list)
+    return paths.select { |path| !excl_list.any? { |excl| !!(path.match excl) } }
+  end
+
+  def index_dir(dirpath, excl_list = [])
     blobs = []
     if !File.directory? dirpath
       puts "#{dirpath} is not a directory."
     else
       subpaths = Dir.entries(dirpath)
-      excl_list = ['.', '..', '.git', 'node_modules']
-      excl_list.each do |excl|
-        subpaths.delete excl
+      if subpaths.include? '.gitignore'
+        excl_list.concat read_git_ignore("#{dirpath}/.gitignore")
       end
+      subpaths = ignore_paths(subpaths, excl_list)
       subpaths.each do |subpath|
         subpath = "#{dirpath}/#{subpath}"
         if File.file? subpath
           blob = Linguist::FileBlob.new(subpath, dirpath)
-          unless !blob.language
+          unless !blob.language or blob.language.type != :programming
             blobs.push(blob)
           end
         elsif File.directory? subpath
-          subblobs = index_dir(subpath)
+          subblobs = index_dir(subpath, excl_list.map(&:clone))
           blobs.concat(subblobs)
         end
       end

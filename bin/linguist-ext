@@ -4,9 +4,9 @@ require_relative './../lib/linguist-ext'
 
 def linguist_ext(args)
     include Linguist
-    path = Dir.pwd
     dirpath = args[0]
-    blobs = index_dir(dirpath)
+    excl_list = ['.', '..', '.git'].map { |d| ignore_to_regex(d) }
+    blobs = index_dir(dirpath, excl_list)
     s = merge_blobs(blobs)
     s.present
 end

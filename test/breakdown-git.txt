@@ -1,4 +1,4 @@
-48.70%  7445       Ruby
-45.98%  7030       TypeScript
-5.12%   782        JavaScript
-0.20%   31         Batchfile
+50.40%  8223       Ruby
+44.62%  7281       TypeScript
+4.79%   782        JavaScript
+0.19%   31         Batchfile

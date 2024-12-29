@@ -1,9 +1,4 @@
-JSON            129307     77.54  lines: 3684  loc: 3684 
-JavaScript      14746      8.84   lines: 373   loc: 368  
-Ruby            8774       5.26   lines: 366   loc: 323  
-TypeScript      7436       4.46   lines: 210   loc: 173  
-Markdown        4567       2.74   lines: 96    loc: 68   
-Text            1054       0.63   lines: 29    loc: 27   
-JSON with Comments 548        0.33   lines: 17    loc: 17   
-Ignore List     195        0.12   lines: 15    loc: 15   
-Batchfile       126        0.08   lines: 3     loc: 3    
+Ruby            9032       52.24  lines: 382   loc: 336  
+TypeScript      7436       43.01  lines: 210   loc: 173  
+JavaScript      788        4.56   lines: 34    loc: 29   
+Batchfile       32         0.19   lines: 2     loc: 2    
