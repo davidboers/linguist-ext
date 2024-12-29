@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import * as ChildProcess from 'child_process';
 import { findRubyExec, findGemExec, isGemInstalled, findLinguistExec, findLinguistExtExec } from './ruby';
-import { dumpText } from './utils';
+import { dumpText, normalizePath } from './utils';
 import { breakdownGit, breakdownWorkspace, breakdownDir } from './breakdown';
 
 export function activate(context: vscode.ExtensionContext) {
@@ -24,7 +24,7 @@ export function activate(context: vscode.ExtensionContext) {
 			throw new Error(msg);
 		}
 
-		const path = editor.document.uri.path.replace('/c:/', 'C:/');
+		const path = normalizePath(editor.document.uri.path);
 		const out = ChildProcess.spawnSync(linguist, [path], { shell: true });
 		if (out.status !== 0) {
 			const dump = dumpText(out.stderr);

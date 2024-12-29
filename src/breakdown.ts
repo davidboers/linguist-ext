@@ -1,6 +1,7 @@
 import * as ChildProcess from 'child_process';
 import * as path from 'path';
 import { workspace, window, Uri } from 'vscode';
+import { normalizePath } from './utils';
 
 /* Breakdown commands */
 
@@ -47,6 +48,7 @@ function getWorkspaceFile(name: string): Uri {
 }
 
 function makeBreakdown(cmd: string, loc: string, dumpPath: string) {
+    loc = normalizePath(loc);
     const out = ChildProcess.spawnSync(cmd, [loc], { shell: true });
     if (out.status === 0) {
         workspace.fs.writeFile(getWorkspaceFile(dumpPath), out.stdout);
