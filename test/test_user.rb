@@ -22,7 +22,7 @@ class TestUser < Minitest::Test
   end
 
   def test_multiple_local_repos
-    return ""
+    return "" # Seperate test outputs
     repos = Linguist.myrepos
     multiple_repos(repos)
   end
