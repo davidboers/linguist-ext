@@ -1,18 +1,18 @@
 import * as vscode from 'vscode';
 import * as ChildProcess from 'child_process';
-import { findRubyExec, findGemExec, isGemInstalled, findLinguistExec } from './ruby';
+import { findRubyExec, findGemExec, isGemInstalled, findLinguistExec, findLinguistExtExec } from './ruby';
 import { dumpText } from './utils';
+import { breakdownGit, breakdownWorkspace, breakdownDir } from './breakdown';
 
 export function activate(context: vscode.ExtensionContext) {
-	vscode.workspace.onDidOpenTextDocument(async (document: vscode.TextDocument) => await activeServer(context, document));
-
-	let ruby = findRubyExec();
-	let gem = findGemExec();
+	const ruby = findRubyExec();
+	const gem = findGemExec();
 
 	isGemInstalled(gem, 'github-linguist');
 	//isGemInstalled(gem, 'linguist-ext');
 
-	let linguist = findLinguistExec();
+	const linguist = findLinguistExec();
+	const linguist_ext = findLinguistExtExec();
 
 	console.log('Linguist extension is now active.');
 
@@ -27,21 +27,24 @@ export function activate(context: vscode.ExtensionContext) {
 		const path = editor.document.uri.path.replace('/c:/', 'C:/');
 		const out = ChildProcess.spawnSync(linguist, [path], { shell: true });
 		if (out.status !== 0) {
-			let msg = `Something went wrong. Linguist gem returned error code: ${out.status}`;
-			if (out.stdout !== null || out.stdout !== undefined) {
-				msg += dumpText(out.stdout);
-			}
+			const dump = dumpText(out.stderr);
+			const msg = `Something went wrong. Linguist gem returned error code: ${out.status}
+			${dump}`;
 			vscode.window.showErrorMessage(msg);
 			throw new Error(msg);
 		}
 	});
 
 	context.subscriptions.push(inquireFile);
-}
 
-function activeServer(context: vscode.ExtensionContext, document: vscode.TextDocument) {
-	const uri = document.uri;
-	console.log('File opened.');
+	const breakdownGitCommand = vscode.commands.registerCommand('linguist.breakdownGit', () => { breakdownGit(linguist); });
+	const breakdownWorkspaceCommand = vscode.commands.registerCommand('linguist.breakdownWorkspace', () => { breakdownWorkspace(linguist_ext); });
+	const breakdownDirCommand = vscode.commands.registerCommand('linguist.breakdownDir', () => { breakdownDir(linguist_ext); });
+
+
+	context.subscriptions.push(breakdownGitCommand);
+	context.subscriptions.push(breakdownWorkspaceCommand);
+	context.subscriptions.push(breakdownDirCommand);
 }
 
 

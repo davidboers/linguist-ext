@@ -12,7 +12,19 @@ suite('Extension Test Suite', () => {
 		assert.ok(await extension?.activate().then(() => true));
 	});
 
-	test('2. Inquire file command.', async () => {
+	test('2. Inquire file command', async () => {
 		assert.ok(await vscode.commands.executeCommand('linguist.inquireFile').then(() => true));
+	});
+
+	test('3. Breakdown git command', async () => {
+		assert.ok(await vscode.commands.executeCommand('linguist.breakdownGit').then(() => true));
+	});
+
+	test('4. Breakdown workspace command', async () => {
+		assert.ok(await vscode.commands.executeCommand('linguist.breakdownWorkspace').then(() => true));
+	});
+
+	test('5. Breakdown dir command', async () => {
+		assert.ok(await vscode.commands.executeCommand('linguist.breakdownDir').then(() => true));
 	});
 });

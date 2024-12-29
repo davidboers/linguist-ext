@@ -16,7 +16,22 @@
       {
         "command": "linguist.inquireFile",
         "title": "Linguist: Inquire file",
-        "description": "Gets language of an individual file"
+        "description": "Get language of an individual file"
+      },
+      {
+        "command": "linguist.breakdownGit",
+        "title": "Linguist: Breakdown Git",
+        "description": "Get language breakdown of a git repository"
+      },
+      {
+        "command": "linguist.breakdownWorkspace",
+        "title": "Linguist: Breakdown Workspace",
+        "description": "Get language breakdown of the current workspace"
+      },
+      {
+        "command": "linguist.breakdownDir",
+        "title": "Linguist: Breakdown Directory",
+        "description": "Get language breakdown of the current directory"
       }
     ],
     "configuration": {
@@ -40,6 +55,12 @@
           "type": "string",
           "default": "github-linguist",
           "markdownDescription": "Path to linguist executable."
+        },
+        "linguist.linguistExtExecutable": {
+          "scope": "machine-overridable",
+          "type": "string",
+          "default": "bin/linguist-ext",
+          "markdownDescription": "Path to linguist-ext executable."
         }
       }
     }
