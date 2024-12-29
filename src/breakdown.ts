@@ -1,9 +1,28 @@
 import * as ChildProcess from 'child_process';
 import * as path from 'path';
 import { workspace, window, Uri } from 'vscode';
-import { normalizePath } from './utils';
+import { dumpText, normalizePath } from './utils';
 
 /* Breakdown commands */
+
+export function inquireFile(cmd: string) {
+    const editor = window.activeTextEditor;
+    if (!editor) {
+        const msg = 'No active document.';
+        window.showInformationMessage(msg);
+        throw new Error(msg);
+    }
+
+    const path = normalizePath(editor.document.uri.path);
+    const out = ChildProcess.spawnSync(cmd, [path], { shell: true });
+    if (out.status !== 0) {
+        const dump = dumpText(out.stderr);
+        const msg = `Something went wrong. Linguist gem returned error code: ${out.status}
+        ${dump}`;
+        window.showErrorMessage(msg);
+        throw new Error(msg);
+    }
+}
 
 export function breakdownGit(cmd: string) {
     makeBreakdown(cmd, getWorkspaceRoot().uri.path, 'breakdown-git.txt');
