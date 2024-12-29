@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+
+require_relative './../lib/linguist-ext'
+
+def linguist_ext(args)
+    include Linguist
+    path = Dir.pwd
+    dirpath = ''
+    blobs = index_dir(dirpath)
+    puts blobs[0]
+end
+
+linguist_ext(ARGV)
