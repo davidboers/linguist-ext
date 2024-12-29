@@ -9,8 +9,6 @@ module Linguist
       summaries.push(s)
     end
     super_tally = merge_summaries(summaries)
-    @directories.each { |path| FileUtils.remove_entry_secure(path) }
-    @directories.clear
     return super_tally
   end
 
