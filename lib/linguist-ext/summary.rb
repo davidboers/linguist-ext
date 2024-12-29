@@ -21,7 +21,7 @@ module Linguist
 
     def present
       totalbytes = self.totalbytes
-      @tallies.sort_by { |t| t.bytes }.reverse.each do |tally|
+      @tallies.sort_by(&:bytes).reverse.each do |tally|
         tally.present(totalbytes)
       end
     end
@@ -44,13 +44,13 @@ module Linguist
       types = [:data, :markup, :programming, :prose]
       tally = {}
       types.each do |type|
-        tally[type] = @tallies.select { |t| t.lang_obj.type == type }.map { |t| t.bytes }.sum
+        tally[type] = @tallies.select { |t| t.lang_obj.type == type }.map(&:bytes).sum
       end
       return tally
     end
 
     def size
-      return @tallies.map { |t| t.bytes }.sum
+      return @tallies.map(&:bytes).sum
     end
 
     def key?(lang)

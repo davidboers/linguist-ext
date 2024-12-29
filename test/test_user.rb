@@ -41,8 +41,8 @@ class TestUser < Minitest::Test
     # Public repos of org:
     user = Octokit.org 'NewElectoralCollege'
 
-    links = user.rels[:repos].get.data.map { |repo| repo.html_url }
-    repo_paths = links.map { |link| get_remote_repo(link) }
+    links = user.rels[:repos].get.data.map(&:html_url)
+    repo_paths = links.map(&method(:get_remote_repo))
     multiple_repos(repo_paths)
     @directories.each { |path| FileUtils.remove_entry_secure(path) }
     @directories.clear
