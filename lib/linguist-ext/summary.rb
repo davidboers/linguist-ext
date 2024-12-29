@@ -1,4 +1,4 @@
-require_relative "tally"
+require_relative 'tally'
 
 module Linguist
   # Must summarize a single repo.

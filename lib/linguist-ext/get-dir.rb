@@ -1,6 +1,6 @@
-require "json"
-require "linguist"
-require "rugged"
+require 'json'
+require 'linguist'
+require 'rugged'
 
 module Linguist
   def index_repo(repopath)
@@ -10,7 +10,7 @@ module Linguist
   end
 
   def ignore_to_regex(ignore)
-    return "\\A" + ignore.gsub(".", "\\.").gsub("*", ".*") + "\\z" 
+    return "\\A" + ignore.gsub('.', "\\.").gsub('*', '.*') + "\\z"
   end
 
   def read_git_ignore(path)

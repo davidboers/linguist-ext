@@ -1,2 +1,2 @@
-require_relative "./../lib/linguist-ext"
-require "minitest/autorun"
+require_relative './../lib/linguist-ext'
+require 'minitest/autorun'

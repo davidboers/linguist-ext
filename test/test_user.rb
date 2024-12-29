@@ -1,6 +1,6 @@
-require_relative "./helper"
-require_relative "./myrepos"
-require "octokit"
+require_relative './helper'
+require_relative './myrepos'
+require 'octokit'
 
 class TestUser < Minitest::Test
   include Linguist
@@ -22,7 +22,7 @@ class TestUser < Minitest::Test
   end
 
   def test_multiple_local_repos
-    return "" # Seperate test outputs
+    return '' # Seperate test outputs
     repos = Linguist.myrepos
     multiple_repos(repos)
   end
