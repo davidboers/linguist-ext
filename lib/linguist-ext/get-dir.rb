@@ -14,17 +14,39 @@ module Linguist
     if !File.directory? dirpath
       puts "#{dirpath} is not a directory."
     else
-      Dir.entries(dirpath).each do |subpath|
+      subpaths = Dir.entries(dirpath)
+      excl_list = ['.', '..', '.git', 'node_modules']
+      excl_list.each do |excl|
+        subpaths.delete excl
+      end
+      subpaths.each do |subpath|
+        subpath = "#{dirpath}/#{subpath}"
         if File.file? subpath
           blob = Linguist::FileBlob.new(subpath, dirpath)
-          blobs.push(blob)
+          unless !blob.language
+            blobs.push(blob)
+          end
         elsif File.directory? subpath
           subblobs = index_dir(subpath)
-          blobs.push(subblobs)
+          blobs.concat(subblobs)
         end
       end
     end
     return blobs
+  end
+
+  def merge_blobs(blobs = [])
+    out = Summary.new
+    blobs.each do |blob|
+      lang = blob.language
+      tally = Tally.new(blob, lang)
+      if !out.key? lang
+        out.add(tally)
+      else
+        out.get(lang).merge(tally)
+      end
+    end
+    return out
   end
 
   def from_json(jsonpath)

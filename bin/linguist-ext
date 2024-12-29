@@ -7,7 +7,8 @@ def linguist_ext(args)
     path = Dir.pwd
     dirpath = args[0]
     blobs = index_dir(dirpath)
-    puts blobs[0]
+    s = merge_blobs(blobs)
+    s.present
 end
 
 linguist_ext(ARGV)

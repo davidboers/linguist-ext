@@ -10,33 +10,40 @@ module Linguist
 
     def initialize(repo, language)
       @language = language
-      if repo.is_a? Linguist::Repository
-        bd = repo.languages
-        files = repo.breakdown_by_file[language]
-      elsif repo.is_a? Hash
-        bd = repo
-        files = bd[language]["files"]
-      end
-
-      if bd[language].nil?
-        puts "Could not find that language: #{language}"
+      if repo.is_a? Linguist::FileBlob
+        @bytes = repo.size
+        @filecount = 1
+        @lines = repo.loc
+        @loc = repo.sloc
       else
-        details = bd[language]
-      end
-
-      @bytes = details
-      @filecount = files.length
-      @lines = 0
-      @loc = 0
-
-      files.each do |path|
-        if !File.exist? path
-          puts "No file #{path}."
-          next
+        if repo.is_a? Linguist::Repository
+          bd = repo.languages
+          files = repo.breakdown_by_file[language]
+        elsif repo.is_a? Hash
+          bd = repo
+          files = bd[language]["files"]
         end
-        blob = Linguist::FileBlob.new(path, Dir.pwd)
-        @lines += blob.loc
-        @loc += blob.sloc
+
+        if bd[language].nil?
+          puts "Could not find that language: #{language}"
+        else
+          details = bd[language]
+        end
+
+        @bytes = details
+        @filecount = files.length
+        @lines = 0
+        @loc = 0
+
+        files.each do |path|
+          if !File.exist? path
+            puts "No file #{path}."
+            next
+          end
+          blob = Linguist::FileBlob.new(path, Dir.pwd)
+          @lines += blob.loc
+          @loc += blob.sloc
+        end
       end
     end
 

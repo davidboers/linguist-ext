@@ -1,2 +1,9 @@
- is not a directory.
-
+JSON            129307     77.27  lines: 3684  loc: 3684 
+JavaScript      14746      8.81   lines: 373   loc: 368  
+Ruby            8774       5.24   lines: 366   loc: 323  
+TypeScript      7436       4.44   lines: 210   loc: 173  
+Markdown        4567       2.73   lines: 96    loc: 68   
+Text            1640       0.98   lines: 40    loc: 38   
+JSON with Comments 548        0.33   lines: 17    loc: 17   
+Ignore List     195        0.12   lines: 15    loc: 15   
+Batchfile       126        0.08   lines: 3     loc: 3    
