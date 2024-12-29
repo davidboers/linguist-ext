@@ -3,16 +3,7 @@ require_relative './myrepos'
 
 class TestUser < Minitest::Test
   include Linguist
-
-  def before_setup
-    @directories = []
-  end
-
-  def delete_temps
-    @directories.each { |path| FileUtils.remove_entry_secure(path) }
-    @directories.clear
-  end
-
+  
   def test_multiple_local_repos
     repos = Linguist.myrepos
     puts 'Selected local repos:'
