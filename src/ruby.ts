@@ -9,6 +9,7 @@ function findExecTemp(setting: string, execName: string): string {
     } else {
         const msg = `Could not find ${execName} executable at '${exePath}'! 
         Consider changing the 'linguist.${setting}' setting, and make sure the executable is installed on your computer by running '${findCommand()} ${execName.toLowerCase()}'`;
+        window.showErrorMessage(msg);
         throw new Error(msg);
     }
 }
