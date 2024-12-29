@@ -14,13 +14,6 @@ class TestUser < Minitest::Test
     multiple_repos(repos).present
   end
 
-  def get_remote_repo(git)
-    path = Dir.mktmpdir("linguist-#{git}")
-    @directories.push(path)
-    `git clone --quiet -- #{git} #{path}`
-    return path
-  end
-
   def test_user
     puts 'Github user repos:'
     index_user('davidboers').present

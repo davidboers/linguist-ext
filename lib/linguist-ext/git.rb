@@ -14,6 +14,13 @@ module Linguist
     return super_tally
   end
 
+  def get_remote_repo(git)
+    path = Dir.mktmpdir("linguist-#{git}")
+    @directories.push(path)
+    `git clone --quiet -- #{git} #{path}`
+    return path
+  end
+
   def index_user(username)
     user = Octokit.user username
     links = user.rels[:repos].get.data.map(&:html_url)
