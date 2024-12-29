@@ -1,0 +1,118 @@
+<html>
+  <head>
+    <title>User breakdown</title>
+
+     <% def byte_share(bytes)
+          (bytes / summary.totalbytes.to_f * 100).round 2
+        end
+        
+        def class_name(lang)
+          lang.name.gsub(/\+/, 'p').gsub(/#/, 'sharp').gsub(/ /, '-')
+        end
+        
+        summary.tallies.sort_by! { |t| -t.bytes }
+        main_msg = case summary.tallies.length
+          when 0
+            "There are no programming languages in this user's repositories."
+          when 1
+            lang = summary.tallies.first
+            "This user writes in #{lang.name}."
+          else
+            langs = summary.tallies[0..2].map(&:language).join(', ')
+            "This user's preferred languages are #{langs}."
+          end
+        
+        largest_shr = byte_share(summary.tallies.first.bytes)
+        maj = if largest_shr >= 50
+            "Most (#{largest_shr}%) of this user's code is written in #{summary.tallies.first.language}."
+          else
+            ''
+          end
+        
+        others = summary.tallies[3..-1]
+        unless others.empty?
+          other_proficient = others.select { |o| o.lines >= 1000 }.map(&:language).join(', ')
+        end %>
+
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 0;
+        padding: 10px;
+        background-color: #f0f0f0;
+        color: #333;
+      }
+
+      table, th, td {
+        border-collapse: collapse;
+      }
+
+      th, td {
+        padding: 5px;
+        border: 1px solid #333;
+      }
+
+      td.numeric {
+        text-align: right;
+      }
+
+      <% summary.tallies.each do |t| %>
+        <%= ".#{class_name(t.lang_obj)}" %> { 
+          background-color: <%= t.lang_obj.color %>;
+        } 
+      <% end %>
+
+      .pie {
+        width: 250px;
+        height: 250px;
+        border-radius: 50%;
+        background-image: conic-gradient(
+          <% counter = 0 %>
+          <% summary.tallies.each_with_index do |t, i| %>
+            <%= t.lang_obj.color %> <%= counter %>%,
+            <% counter += byte_share(t.bytes) %>
+            <%= t.lang_obj.color %> <%= counter %>%
+            <% if i < summary.tallies.length - 1 %>,<% end %>
+          <% end %>
+        );
+      }
+    </style>
+  </head>
+
+<body>
+
+<p><%= main_msg %></p>
+<p><%= maj %></p>
+
+<% unless others.empty? %>
+<p>This user is also proficient in <%= other_proficient %>.</p>
+<% end %>
+
+<table>
+  <tr>
+    <th colspan="2">Language</th>
+    <th>Bytes</th>
+    <th>Share</th>
+    <th>Files</th>
+    <th>Lines</th>
+    <th>LOC</th>
+  </tr>
+  <% summary.tallies.each do |t| %>
+    <tr>
+      <td class="<%= class_name(t.lang_obj) %>"></td>
+      <td><%= t.language %></td>
+      <td class="numeric"><%= t.bytes %></td>
+      <td class="numeric"><%= byte_share(t.bytes) %></td>
+      <td class="numeric"><%= t.filecount %></td>
+      <td class="numeric"><%= t.lines %></td>
+      <td class="numeric"><%= t.loc %></td>
+    </tr>
+  <% end %>
+</table>
+
+<br/>
+
+<div class="pie"></div>
+
+</body>
+</html>
