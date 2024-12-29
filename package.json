@@ -59,7 +59,7 @@
         "linguist.linguistExtExecutable": {
           "scope": "machine-overridable",
           "type": "string",
-          "default": "bin/linguist-ext",
+          "default": "linguist-ext",
           "markdownDescription": "Path to linguist-ext executable."
         }
       }

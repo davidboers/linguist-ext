@@ -8,6 +8,12 @@ suite('Extension Test Suite', () => {
 	const extensionId = 'undefined_publisher.linguist';
 	const extension = vscode.extensions.getExtension(extensionId);
 
+	const pathSep = process.platform === 'win32' ? ';' : ':';
+	let envPaths = process.env.PATH?.split(pathSep);
+	const extensionPath = extension?.extensionPath ?? '';
+	envPaths?.push(extensionPath + '/bin');
+	process.env.PATH = envPaths?.join(pathSep);
+
 	test('1. Activation', async () => {
 		assert.ok(await extension?.activate().then(() => true));
 	});
