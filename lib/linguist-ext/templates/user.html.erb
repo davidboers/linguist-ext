@@ -18,7 +18,7 @@
             lang = summary.tallies.first
             "This user writes in #{lang.name}."
           else
-            langs = summary.tallies[0..2].map(&:language).join(', ')
+            langs = merge_langs(summary.tallies[0..2].map(&:language))
             "This user's preferred languages are #{langs}."
           end
         
