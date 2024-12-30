@@ -5,7 +5,11 @@ require 'rugged'
 module Linguist
   def index_repo(repopath)
     rugged = Rugged::Repository.new(repopath)
-    repo = Linguist::Repository.new(rugged, rugged.head.target_id)
+    begin
+      repo = Linguist::Repository.new(rugged, rugged.head.target_id)
+    rescue Rugged::ReferenceError
+      repo = Linguist::Repository.new(rugged, rugged.empty_tree_id)
+    end
     return repo
   end
 
