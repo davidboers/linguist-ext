@@ -25,7 +25,7 @@ module Linguist
       tb = gb * 1000
       if bytes < kb
         return "#{bytes}"
-      elsif bytes < mb 
+      elsif bytes < mb
         return "#{(bytes / kb)} KB"
       elsif bytes < gb
         return "#{(bytes / mb)} MB"
