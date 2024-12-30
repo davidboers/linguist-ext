@@ -36,9 +36,11 @@ module Linguist
         @loc = 0
 
         files.each do |path|
+          if repo.is_a? Linguist::Repository
+            path = "#{repo.repository.path}/../#{path}"
+          end
           if !File.exist? path
-            puts "No file #{path}."
-            next
+            puts path
           end
           blob = Linguist::FileBlob.new(path, Dir.pwd)
           @lines += blob.loc
