@@ -29,9 +29,9 @@
             ''
           end
         
-        others = summary.tallies[3..-1]
+        others = summary.tallies[3..-1].select { |o| o.lines >= 1000 }
         unless others.empty?
-          other_proficient = others.select { |o| o.lines >= 1000 }.map(&:language).join(', ')
+          other_proficient = others.map(&:language).join(', ')
         end %>
 
     <style>
