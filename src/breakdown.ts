@@ -5,7 +5,7 @@ import { normalizePath } from './utils';
 
 /* Breakdown commands */
 
-export function inquireFile(cmd: string) {
+export function inquireFile(cmd: string): string {
     const editor = window.activeTextEditor;
     if (!editor) {
         const msg = 'No active document.';
@@ -22,6 +22,11 @@ export function inquireFile(cmd: string) {
         window.showErrorMessage(msg);
         throw new Error(msg);
     }
+
+    const dump = JSON.parse(out.stdout.toString());
+    const lang = dump[path].language;
+    window.showInformationMessage(`Language: ${lang}`);
+    return lang;
 }
 
 export function breakdownGit(cmd: string) {
