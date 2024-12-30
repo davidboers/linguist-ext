@@ -1,7 +1,7 @@
 import * as ChildProcess from 'child_process';
 import * as path from 'path';
 import { workspace, window, Uri } from 'vscode';
-import { dumpText, normalizePath } from './utils';
+import { normalizePath } from './utils';
 
 /* Breakdown commands */
 
@@ -14,9 +14,9 @@ export function inquireFile(cmd: string) {
     }
 
     const path = normalizePath(editor.document.uri.path);
-    const out = ChildProcess.spawnSync(cmd, [path], { shell: true });
+    const out = ChildProcess.spawnSync(cmd, [path, '--json'], { shell: true });
     if (out.status !== 0) {
-        const dump = dumpText(out.stderr);
+        const dump = out.stderr.toString();
         const msg = `Something went wrong. Linguist gem returned error code: ${out.status}
         ${dump}`;
         window.showErrorMessage(msg);
