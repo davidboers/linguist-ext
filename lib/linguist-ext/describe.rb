@@ -5,6 +5,7 @@ module Linguist
     include Helper
 
     attr_reader :summary
+    attr_accessor :noun
     attr_reader :main_lang
 
     def initialize(summary, noun)
@@ -35,10 +36,10 @@ module Linguist
       raise NotImplementedError
     end
 
-    def maj(nm)
-      largest_shr = byte_share(summary.tallies.first.bytes)
+    def maj
+      largest_shr = byte_share(main_lang.bytes)
       if largest_shr >= 50 && largest_shr != 100
-        "Most (#{largest_shr}%) of this #{nm}'s code is written in #{main_lang.language}."
+        "Most (#{largest_shr}%) of this #{noun}'s code is written in #{main_lang.language}."
       else
         ''
       end
