@@ -19,10 +19,15 @@ module Linguist
     return path
   end
 
-  def index_user(username)
+  def index_user(username, access_token = nil)
     @directories = []
-    user = Octokit.user username
-    links = user.rels[:repos].get.data.map(&:html_url)
+    if access_token.nil?
+      user = Octokit.user username
+      links = user.rels[:repos].get.data.map(&:html_url)
+    else
+      client = Octokit::Client.new access_token: access_token
+      links = client.repos(client.user, affiliation: 'owner').map(&:html_url)
+    end
     repos = links.map(&method(:get_remote_repo))
     s = multiple_repos(repos)
     @directories.each { |path| FileUtils.remove_entry_secure(path) }
