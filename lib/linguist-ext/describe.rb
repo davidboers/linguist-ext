@@ -2,6 +2,8 @@ require 'erb'
 
 module Linguist
   class Describable
+    include Helper
+    
     attr_reader :summary
 
     def initialize(summary)
