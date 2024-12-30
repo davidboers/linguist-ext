@@ -2,32 +2,9 @@
   <head>
     <title><%= make_title %></title>
 
-     <% def byte_share(bytes)
-          (bytes / summary.totalbytes.to_f * 100).round 2
-        end
-        
-        def class_name(lang)
+     <% def class_name(lang)
           lang.name.gsub(/\+/, 'p').gsub(/#/, 'sharp').gsub(/ /, '-')
         end
-        
-        summary.tallies.sort_by! { |t| -t.bytes }
-        main_msg = case summary.tallies.length
-          when 0
-            "There are no programming languages in this user's repositories."
-          when 1
-            lang = summary.tallies.first
-            "This user writes in #{lang.name}."
-          else
-            langs = merge_langs(summary.tallies[0..2].map(&:language))
-            "This user's preferred languages are #{langs}."
-          end
-        
-        largest_shr = byte_share(summary.tallies.first.bytes)
-        maj = if largest_shr >= 50
-            "Most (#{largest_shr}%) of this user's code is written in #{summary.tallies.first.language}."
-          else
-            ''
-          end
         
         others = summary.tallies[3..-1].select { |o| o.lines >= 1000 }
         unless others.empty?
@@ -85,7 +62,7 @@
 <p><%= maj %></p>
 
 <% unless others.empty? %>
-<p>This user is also proficient in <%= other_proficient %>.</p>
+<p>This <%= noun %> is also proficient in <%= other_proficient %>.</p>
 <% end %>
 
 <table>
