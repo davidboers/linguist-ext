@@ -10,7 +10,8 @@ class TestDescribe < Minitest::Test
   end
 
   def test_repo
-    s = index_repo('.')
+    repo = index_repo('.')
+    s = Summary.new repo
     repo = Repo.new(s)
     File.write('test/descriptions/repo.html', repo.describe)
   end
