@@ -101,7 +101,7 @@
     <tr>
       <td class="<%= class_name(t.lang_obj) %>"></td>
       <td><%= t.language %></td>
-      <td class="numeric"><%= t.bytes %></td>
+      <td class="numeric"><%= format_bytes(t.bytes) %></td>
       <td class="numeric"><%= byte_share(t.bytes) %></td>
       <td class="numeric"><%= t.filecount %></td>
       <td class="numeric"><%= t.lines %></td>

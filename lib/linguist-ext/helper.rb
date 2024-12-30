@@ -17,5 +17,23 @@ module Linguist
         return by_comma.join(', ') + ', ' + merge_langs(by_and)
       end
     end
+
+    def format_bytes(bytes)
+      kb = 1000
+      mb = kb * 1000
+      gb = mb * 1000
+      tb = gb * 1000
+      if bytes < kb
+        return "#{bytes}"
+      elsif bytes < mb 
+        return "#{(bytes / kb)} KB"
+      elsif bytes < gb
+        return "#{(bytes / mb)} MB"
+      elsif bytes < tb
+        return "#{(bytes / mb)} GB"
+      else
+        return "#{(bytes / tb)} TB"
+      end
+    end
   end
 end
