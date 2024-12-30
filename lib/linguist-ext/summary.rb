@@ -73,20 +73,16 @@ module Linguist
         end
       end
     end
-  end
 
-  def merge_summaries(summaries = [])
-    out = Summary.new
-    summaries.each do |summary|
-      summary.tallies.each do |tally|
+    def merge(j)
+      j.tallies.each do |tally|
         lang = tally.language
-        if !out.key? lang
-          out.add(tally)
+        if !key? lang
+          add(tally)
         else
-          out.get(lang).merge(tally)
+          get(lang).merge(tally)
         end
       end
     end
-    return out
   end
 end

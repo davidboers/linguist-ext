@@ -41,10 +41,11 @@ module Linguist
           end
           if !File.exist? path
             puts path
+          else # Create lazy blob instances for repos
+            blob = Linguist::FileBlob.new(path, Dir.pwd)
+            @lines += blob.loc
+            @loc += blob.sloc
           end
-          blob = Linguist::FileBlob.new(path, Dir.pwd)
-          @lines += blob.loc
-          @loc += blob.sloc
         end
       end
     end

@@ -1,4 +1,5 @@
 require 'erb'
+require 'octokit'
 
 module Linguist
   class Describable
@@ -8,7 +9,7 @@ module Linguist
     attr_accessor :noun
     attr_reader :main_lang
 
-    def initialize(summary, noun)
+    def initialize(noun)
       @summary = summary
       @noun = noun
       @summary.tallies.sort_by! { |t| -t.bytes }
@@ -57,17 +58,49 @@ module Linguist
       raise NotImplementedError
     end
 
+    def index
+      raise NotImplementedError
+    end
+
     def describe
       template_path = 'lib/linguist-ext/templates/description.html.erb'
       template = File.read(template_path)
       renderer = ERB.new(template)
       renderer.result(binding)
     end
+
+    def get_remote_repo(git)
+      path = Dir.mktmpdir("linguist-#{git}")
+      @directories.push(path)
+      `git clone --quiet -- #{git} #{path}`
+      return path
+    end
+
+    def multiple_repos(repos)
+      summary = Summary.new
+      repos.each do |repo|
+        repo = Repo.new repo
+        summary.merge(repo.summary)
+      end
+      return summary
+    end
   end
 
   class User < Describable
-    def initialize(summary)
-      super(summary, 'user')
+    def initialize(username, access_token = nil)
+      @directories = []
+      if access_token.nil?
+        user = Octokit.user username
+        links = user.rels[:repos].get.data.map(&:html_url)
+      else
+        client = Octokit::Client.new access_token: access_token
+        links = client.repos(client.user, affiliation: 'owner').map(&:html_url)
+      end
+      repos = links.map(&method(:get_remote_repo))
+      @summary = multiple_repos(repos)
+      @directories.each { |path| FileUtils.remove_entry_secure(path) }
+      @directories.clear
+      super('user')
     end
 
     def make_title
@@ -89,8 +122,15 @@ module Linguist
   end
 
   class Org < Describable
-    def initialize(summary)
-      super(summary, 'organization')
+    def initialize(orgname)
+      @directories = []
+      org = Octokit.org orgname
+      links = org.rels[:repos].get.data.map(&:html_url)
+      repos = links.map(&method(:get_remote_repo))
+      @summary = multiple_repos(repos)
+      @directories.each { |path| FileUtils.remove_entry_secure(path) }
+      @directories.clear
+      super('organization')
     end
 
     def make_title
@@ -112,8 +152,15 @@ module Linguist
   end
 
   class Repo < Describable
-    def initialize(summary)
-      super(summary, 'repository')
+    def initialize(repopath)
+      rugged = Rugged::Repository.new(repopath)
+      begin
+        repo = Linguist::Repository.new(rugged, rugged.head.target_id)
+      rescue Rugged::ReferenceError
+        repo = Linguist::Repository.new(rugged, rugged.empty_tree_id)
+      end
+      @summary = Summary.new repo
+      super('repository')
     end
 
     def make_title

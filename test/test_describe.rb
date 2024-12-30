@@ -4,21 +4,17 @@ class TestDescribe < Minitest::Test
   include Linguist
 
   def test_org
-    s = index_org('NewElectoralCollege')
-    org = Org.new(s)
+    org = Org.new('NewElectoralCollege')
     File.write('test/descriptions/org.html', org.describe)
   end
 
   def test_repo
-    repo = index_repo('.')
-    s = Summary.new repo
-    repo = Repo.new(s)
+    repo = Repo.new('.')
     File.write('test/descriptions/repo.html', repo.describe)
   end
 
   def test_user
-    s = index_user('davidboers')
-    user = User.new(s)
+    user = User.new('davidboers')
     File.write('test/descriptions/user.html', user.describe)
   end
 end
