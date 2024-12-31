@@ -46,11 +46,12 @@
         border: 1px solid black;
         background-image: conic-gradient(
           <% counter = 0 %>
-          <% summary.tallies.each_with_index do |t, i| %>
-            <%= t.lang_obj.color %> <%= counter %>%,
+          <% summary.otherize.each_with_index do |t, i| %>
+            <% color = t.language == 'Other' ? "#dddddd" : t.lang_obj.color %>
+            <%= color %> <%= counter %>%,
             <% counter += byte_share(t.bytes) %>
-            <%= t.lang_obj.color %> <%= counter %>%
-            <% if i < summary.tallies.length - 1 %>,<% end %>
+            <%= color %> <%= counter %>%
+            <% if i < summary.otherize.length - 1 %>,<% end %>
           <% end %>
         );
       }

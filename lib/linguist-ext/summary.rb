@@ -84,5 +84,17 @@ module Linguist
         end
       end
     end
+
+    def otherize
+      threshold = 0.01
+      t = @tallies.select { |t| t.bytes / totalbytes.to_f >= threshold }
+      o = @tallies.select { |t| t.bytes / totalbytes.to_f <  threshold }
+      if o.length == 0
+        return t
+      end
+      other_tally = OtherLangs.new o
+      t.push other_tally
+      return t
+    end
   end
 end
