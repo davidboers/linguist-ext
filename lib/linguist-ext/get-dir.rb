@@ -37,7 +37,7 @@ module Linguist
         subpath = "#{dirpath}/#{subpath}"
         if File.file? subpath
           blob = Linguist::FileBlob.new(subpath, dirpath)
-          unless !blob.language or blob.language.type != :programming
+          unless !blob.language or ![:programming, :markup].include? blob.language.type
             blobs.push(blob)
           end
         elsif File.directory? subpath
