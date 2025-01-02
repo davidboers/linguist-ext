@@ -14,7 +14,7 @@ class TestDescribe < Minitest::Test
   end
 
   def test_user
-    user = User.new('davidboers')
+    user = User.new(:netrc => true, :netrc_file => ".netrc")
     File.write('test/descriptions/user.html', user.describe)
   end
 end
