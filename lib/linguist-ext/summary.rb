@@ -27,17 +27,13 @@ module Linguist
     end
 
     def totalbytes
-      total = 0
-      @tallies.each do |tally|
-        total += tally.bytes
-      end
-      return total
+      @tallies.map(&:bytes).sum
     end
 
     # Returns list of languages with at least 10% total bytes
     def big_languages
       threshold = self.size / 10
-      return @tallies.select { |t| t.bytes >= threshold }.map { |t| t.language }
+      return @tallies.select { |t| t.bytes >= threshold }.map(&:language)
     end
 
     def tally_by_type
