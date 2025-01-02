@@ -18,6 +18,10 @@ module Linguist
       end
     end
 
+    def format_number(number)
+      number.to_s.chars.to_a.reverse.each_slice(3).map(&:join).join(',').reverse
+    end
+
     def format_bytes(bytes)
       kb = 1000
       mb = kb * 1000

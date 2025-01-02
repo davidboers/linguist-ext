@@ -82,9 +82,9 @@
       <td><%= t.language %></td>
       <td class="numeric"><%= format_bytes(t.bytes) %></td>
       <td class="numeric"><%= byte_share(t.bytes) %></td>
-      <td class="numeric"><%= t.filecount %></td>
-      <td class="numeric"><%= t.lines %></td>
-      <td class="numeric"><%= t.loc %></td>
+      <td class="numeric"><%= format_number(t.filecount) %></td>
+      <td class="numeric"><%= format_number(t.lines) %></td>
+      <td class="numeric"><%= format_number(t.loc) %></td>
     </tr>
   <% end %>
 </table>
