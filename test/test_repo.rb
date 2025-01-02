@@ -2,6 +2,7 @@ require_relative './helper'
 
 class TestRepo < Minitest::Test
   include Linguist
+  include Helper
 
   def normalize_path(input)
     return "#{Dir.pwd}/#{input}"
@@ -26,8 +27,8 @@ class TestRepo < Minitest::Test
   end
 
   def test_tally_type
-    results = index_repo('.')
-    s = Summary.new results
+    repo = Repo.new('.')
+    s = repo.summary
     summary(s)
     puts s.tally_by_type
   end
