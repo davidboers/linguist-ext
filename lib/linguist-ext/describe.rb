@@ -70,19 +70,14 @@ module Linguist
     end
 
     def get_remote_repo(git)
+      if @verbose
+        puts "Cloning #{git} (#{@repo_tally}/#{@total_repos})"
+        @repo_tally += 1
+      end
       path = Dir.mktmpdir("linguist-#{git}")
       @directories.push(path)
       `git clone --quiet -- #{git} #{path}`
       return path
-    end
-
-    def multiple_repos(repos)
-      summary = Summary.new
-      repos.each do |repo|
-        repo = Repo.new repo
-        summary.merge(repo.summary)
-      end
-      return summary
     end
   end
 end

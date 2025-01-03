@@ -4,7 +4,7 @@ class TestDescribe < Minitest::Test
   include Linguist
 
   def test_org
-    org = Org.new('NewElectoralCollege')
+    org = Org.new(:username => 'NewElectoralCollege', :verbose => true)
     File.write('test/descriptions/org.html', org.describe)
   end
 

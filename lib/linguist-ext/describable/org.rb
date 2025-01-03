@@ -2,8 +2,8 @@ module Linguist
   class Org < Describable
     include MultipleRepos
 
-    def initialize(orgname)
-      copy_repos({:username => orgname}, 'organization')
+    def initialize(options = {})
+      copy_repos(options, 'organization')
       super('organization')
     end
 
