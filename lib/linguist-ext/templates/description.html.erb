@@ -47,7 +47,7 @@
         background-image: conic-gradient(
           <% counter = 0 %>
           <% summary.otherize.each_with_index do |t, i| %>
-            <% color = t.language == 'Other' ? "#dddddd" : t.lang_obj.color %>
+            <% color = t.language == 'Other' ? '#dddddd' : t.lang_obj.color %>
             <%= color %> <%= counter %>%,
             <% counter += byte_share(t.bytes) %>
             <%= color %> <%= counter %>%

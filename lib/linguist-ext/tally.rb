@@ -79,10 +79,10 @@ module Linguist
   class OtherLangs < Tally
     def initialize(others)
       @language = 'Other'
-      @bytes = others.map(&:bytes).sum  
+      @bytes = others.map(&:bytes).sum
       @filecount = others.map(&:filecount).sum
       @lines = others.map(&:lines).sum
-      @loc = others.map(&:loc).sum      
+      @loc = others.map(&:loc).sum
     end
   end
 end
