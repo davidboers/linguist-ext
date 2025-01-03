@@ -1,13 +1,9 @@
 module Linguist
   class Org < Describable
+    include MultipleRepos
+
     def initialize(orgname)
-      @directories = []
-      org = Octokit.org orgname
-      links = org.rels[:repos].get.data.map(&:html_url)
-      repos = links.map(&method(:get_remote_repo))
-      @summary = multiple_repos(repos)
-      @directories.each { |path| FileUtils.remove_entry_secure(path) }
-      @directories.clear
+      copy_repos({:username => orgname}, 'organization')
       super('organization')
     end
 
